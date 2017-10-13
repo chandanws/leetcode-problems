@@ -1,5 +1,5 @@
 // Problem link: https://leetcode.com/problems/two-sum/description/
-// Live example link: https://repl.it/M9Cw
+// Live example link: https://repl.it/M9Cw/1
 // Status: Accepted
 
 import java.util.*;
