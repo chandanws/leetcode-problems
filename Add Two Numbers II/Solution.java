@@ -46,4 +46,42 @@ class Solution {
         }
         return newH;
     }
+    // this does not work well with number that is larger than long can handle
+    public ListNode addTwoNumbersWithoutUsingReverseLL(ListNode l1, ListNode l2) {
+        int numberDigits1 = 0, numberDigits2 = 0;
+        ListNode l1H = l1, l2H = l2;
+        while(l1H != null) {
+          numberDigits1++;
+          l1H = l1H.next;
+        }
+        while(l2H != null) {
+          numberDigits2++;
+          l2H = l2H.next;
+        }
+        long sum1 = 0, sum2 = 0;
+        l1H = l1;
+        for(int i = numberDigits1 - 1; i >= 0; i--) {
+          sum1 += (long)Math.pow(10, i)*l1H.val;
+          l1H = l1H.next;
+        }
+        l2H = l2;
+        for(int i = numberDigits2 - 1; i >= 0; i--) {
+          sum2 += (long)Math.pow(10, i)*l2H.val;
+          l2H = l2H.next;
+        }
+        long sum = sum1 + sum2, subSum = sum;
+        String sumStr = Long.toString(sum);
+        ListNode newH = null, currentNode = null;
+        for(int i = 0; i < sumStr.length(); i++) {
+          ListNode newNode = new ListNode(Character.getNumericValue(sumStr.charAt(i)));
+          if(newH == null) {
+            newH = newNode;
+            currentNode = newH;
+          } else {
+            currentNode.next = newNode;
+            currentNode = currentNode.next;
+          }
+        }
+        return newH;
+    }
 }
