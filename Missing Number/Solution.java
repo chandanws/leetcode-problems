@@ -5,10 +5,10 @@ class Solution {
     public int missingNumber(int[] nums) {
         boolean hasZero = false, hasMax = false;
         long sum = 0;
-        for(int i = 0; i < nums.length; i++) {
-            if(nums[i] == 0) hasZero = true;
-            if(nums[i] == nums.length) hasMax = true;
-            sum += nums[i];
+        for(int num: nums) {
+            if(num == 0) hasZero = true;
+            if(num == nums.length) hasMax = true;
+            sum += num;
         }
         if(!hasZero) return 0;
         if(!hasMax) return nums.length;
