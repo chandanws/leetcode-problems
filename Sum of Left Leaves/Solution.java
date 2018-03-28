@@ -19,14 +19,10 @@ class Solution {
         while(!q.isEmpty()) {
             TreeNode current = q.poll();
             if(current.left != null) {
-                q.add(current.left);
-                q.add(null);
+                if(current.left.left == null && current.left.right == null) sum += current.left.val;
+                else q.add(current.left);
             }
             if(current.right != null) q.add(current.right);
-            if(q.peek() == null && !q.isEmpty()) {
-                q.poll();
-                if(current.right == null && current.left == null) sum += current.val;
-            }
         }
         return sum;
     }
