@@ -3,16 +3,13 @@
 
 class Solution {
     private void exploreTheIsland(int i, int j, char [][] grid) {
-        try {
-            if(grid[i][j] != '1') return;
-        } catch (Exception ex) {
-            return;
+        if(i > -1 && j > -1 && i < grid.length && j < grid[0].length && grid[i][j] == '1') {
+            grid[i][j] = '2';
+            exploreTheIsland(i, j - 1, grid); // up
+            exploreTheIsland(i, j + 1, grid); // down
+            exploreTheIsland(i + 1, j, grid); // right
+            exploreTheIsland(i - 1, j, grid); // left
         }
-        grid[i][j] = '2';
-        exploreTheIsland(i, j - 1, grid); // up
-        exploreTheIsland(i, j + 1, grid); // down
-        exploreTheIsland(i + 1, j, grid); // right
-        exploreTheIsland(i - 1, j, grid); // left
     }
     public int numIslands(char[][] grid) {
         int rows = grid.length;
