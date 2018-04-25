@@ -10,6 +10,7 @@
  * }
  */
 class Solution {
+    // First reverse, and then increment, then reverse back
     private ListNode reverseList(ListNode head) {
         ListNode currentNode = head;
         ListNode copiedHead = null;
@@ -21,7 +22,7 @@ class Solution {
         }
         return copiedHead;
     }
-    public ListNode plusOne(ListNode head) {
+    public ListNode plusOneRevIncrRev(ListNode head) {
         ListNode reverseHead = reverseList(head);
         ListNode currentNode = reverseHead;
         currentNode.val++;
@@ -33,5 +34,23 @@ class Solution {
             currentNode = currentNode.next;
         }
         return reverseList(reverseHead);
+    }
+    // recursively dfs
+    private int dfs(ListNode head) {
+        if(head == null) return 1;
+        int carry = dfs(head.next);
+        if(carry == 0) return 0;
+        head.val++;
+        if(head.val < 10) return 0;
+        head.val = 0;
+        return 1;
+    }
+    public ListNode plusOneRecurDfs(ListNode head) {
+        if(dfs(head) == 1) {
+            ListNode newHead = new ListNode(1);
+            newHead.next = head;
+            return newHead;
+        }
+        return head;
     }
 }
