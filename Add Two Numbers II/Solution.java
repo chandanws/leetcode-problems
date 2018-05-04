@@ -84,4 +84,30 @@ class Solution {
         }
         return newH;
     }
+    public ListNode addTwoNumbersUsingTwoStacks(ListNode l1, ListNode l2) {
+        ListNode copyL1 = l1, copyL2 = l2;
+        ListNode dummyHead = new ListNode(1);
+        ListNode head = dummyHead;
+        Stack<ListNode> s1 = new Stack<>();
+        Stack<ListNode> s2 = new Stack<>();
+        while(copyL1 != null) {
+            s1.push(copyL1);
+            copyL1 = copyL1.next;
+        }
+        while(copyL2 != null) {
+            s2.push(copyL2);
+            copyL2 = copyL2.next;
+        }
+        int carry = 0;
+        while(!s1.isEmpty() || !s2.isEmpty()) {
+            int sum = carry;
+            if(!s1.isEmpty()) sum += s1.pop().val;
+            if(!s2.isEmpty()) sum += s2.pop().val;
+            ListNode node = new ListNode(sum % 10);
+            carry = sum / 10;
+            node.next = head.next;
+            head.next = node;
+        }
+        return carry == 1 ? dummyHead : dummyHead.next;
+    }
 }
