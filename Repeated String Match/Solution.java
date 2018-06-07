@@ -5,6 +5,15 @@
 import java.util.*;
 
 public class Solution {
+  public int repeatedStringMatch(String A, String B) {
+    int n = (B.length() / A.length()) + 2;
+    StringBuilder s = new StringBuilder(A);
+    for(int i = 1; i <= n; i++) {
+      if(s.toString().contains(B)) return i;
+      s.append(A);
+    }
+    return -1;
+  }
   public static int repeatedStringMatch(String A, String B) {
     // already matched
     if (A.indexOf(B) != -1) {
