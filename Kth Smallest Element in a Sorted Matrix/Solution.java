@@ -31,7 +31,7 @@ class Solution {
 		public int compare(SpecialNode n1, SpecialNode n2) {
             return n2.value - n1.value;
         }
-	};
+    };
 }
 
 class SpecialNode {
