@@ -1,6 +1,3 @@
-// Problem link: https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/description/
-// Status: Accepted
-
 import java.util.Comparator;
 
 class Solution {
@@ -27,8 +24,8 @@ class Solution {
         return heap.poll().value;
     }
     public static Comparator<SpecialNode> specialNodeComparator = new Comparator<SpecialNode>(){
-		@Override
-		public int compare(SpecialNode n1, SpecialNode n2) {
+	@Override
+	public int compare(SpecialNode n1, SpecialNode n2) {
             return n2.value - n1.value;
         }
     };
