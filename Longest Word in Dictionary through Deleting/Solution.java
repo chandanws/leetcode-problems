@@ -3,27 +3,24 @@
 
 class Solution {
     public String findLongestWord(String s, List<String> d) {
-        int sLen = s.length(), maxWordLen = Integer.MIN_VALUE;
-        ArrayList<String> l = new ArrayList<String>();
+        int sLen = s.length();
+        String lastMatchedWord = "";
         for(String word : d) {
-            int i = 0, j = 0, wordLen = word.length();
-            while(i < sLen && j < wordLen && sLen >= wordLen) {
+            int i = 0, j = 0, strLen = word.length();
+            while(i < sLen && j < strLen) {
                 if(s.charAt(i) == word.charAt(j)) j++;
                 i++;
             }
-            if(j == wordLen && j >= maxWordLen) {
-                if(j > maxWordLen) {
-                    maxWordLen = j;
-                    l.clear();
+            if(j == strLen) {
+                if(j > lastMatchedWord.length()) {
+                    lastMatchedWord = word;
+                } else if(j == lastMatchedWord.length()) {
+                    String [] strs = new String[]{lastMatchedWord, word};
+                    Arrays.sort(strs);
+                    lastMatchedWord = strs[0];
                 }
-                l.add(word);
             }
         }
-        int lLen = l.size();
-        if(lLen == 0) return "";
-        String [] res = new String[lLen];
-        for(int k = 0; k < lLen; k++) res[k] = l.get(k);
-        Arrays.sort(res);
-        return res[0];
+        return lastMatchedWord;
     }
 }
