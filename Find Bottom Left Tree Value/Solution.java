@@ -11,17 +11,27 @@
  * }
  */
 class Solution {
-    List<List<Integer>> res;
-    private void helper(TreeNode root, int level) {
-        if(root == null) return;
-        if(res.size() == level) res.add(new ArrayList<>());
-        res.get(level).add(root.val);
-        helper(root.left, level + 1);
-        helper(root.right, level + 1);
-    }
+    private TreeNode ans;
+    private int foundLevel;
     public int findBottomLeftValue(TreeNode root) {
-        res = new ArrayList<>();
-        helper(root, 0);
-        return res.get(res.size() - 1).get(0);
+        ans = null;
+        foundLevel = -1;
+        Queue<TreeNode> q = new LinkedList<TreeNode>();
+        q.offer(root);
+        int level = 0;
+        while(!q.isEmpty()) {
+            int size = q.size();
+            for(int i = 0; i < size; i++) {
+                TreeNode node = q.poll();
+                if(ans == null || level > foundLevel) {
+                    ans = node;
+                    foundLevel = level;
+                }
+                if(node.left != null) q.offer(node.left);
+                if(node.right != null) q.offer(node.right);
+            }
+            level++;
+        }
+        return ans.val;
     }
 }
