@@ -11,26 +11,21 @@
  * }
  */
 class Solution {
-    private List<String> l;
+    private int sum;
     private void helper(TreeNode root, String num) {
         if(root.left == null && root.right == null) {
             num += root.val;
-            l.add(num);
+            sum += Integer.parseInt(num);
             return;
         }
         num += root.val;
         if(root.left != null) helper(root.left, num);
         if(root.right != null) helper(root.right, num);
     }
-    private int sum() {
-        int sum = 0;
-        for(String num : l) sum += Integer.parseInt(num);
-        return sum;
-    }
     public int sumNumbers(TreeNode root) {
         if(root == null) return 0;
-        l = new ArrayList<>();
+        sum = 0;
         helper(root, "");
-        return sum();
+        return sum;
     }
 }
