@@ -1,7 +1,6 @@
 // Problem link: https://leetcode.com/problems/longest-valid-parentheses/
 // Status: Accepted
 
-
 class Solution {
     public int longestValidParentheses(String s) {
         int maxLength = 0;
