@@ -1,4 +1,4 @@
-// Problem link: https://leetcode.com/contest/weekly-contest-95/problems/stone-game/
+// Problem link: https://leetcode.com/problems/stone-game/description/
 // Status: Accepted
 
 class Solution {
