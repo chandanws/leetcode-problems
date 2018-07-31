@@ -3,18 +3,12 @@
 
 class Solution {
     public List<String> findRepeatedDnaSequences(String s) {
-        int n = s.length();
-        List<String> res = new ArrayList<String>();
-        if(n < 10) return res;
-        int left = 0, right = 9;
-        HashSet<String> hs = new HashSet<String>();
-        HashMap<String, Integer> hm = new HashMap<String, Integer>();
-        for(int i = 0; i < n - 9; i++) {
-            String str = s.substring(left + i, right + i + 1);
-            if(!hm.containsKey(str)) hm.put(str, 1);
-            else hs.add(str);
+        HashSet<String> seen = new HashSet<String>(), added = new HashSet<String>();
+        for(int i = 0; i < s.length() - 9; i++) {
+            String str = s.substring(i, i + 10);
+            if(!seen.contains(str)) seen.add(str);
+            else added.add(str);
         }
-        for(String nextStr : hs) res.add(nextStr);
-        return res;
+        return new ArrayList<String>(added);
     }
 }
