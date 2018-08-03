@@ -9,16 +9,16 @@ class Solution {
                 return b - a;
             }
         });
-        List<Integer> res = new ArrayList<>();
+        int [] res = new int[nums.length - k + 1];
         for(int i = 0; i < k; i++) pq.offer(nums[i]);
-        int open = 0, close = k - 1;
+        int open = 0, close = k - 1, index = 0;
         while(close < nums.length) {
-            res.add((int) pq.peek());
+            res[index++] = (int) pq.peek();
             pq.remove(nums[open]);
             open++;
             close++;
             if(close < nums.length) pq.add(nums[close]);
         }
-        return res.stream().mapToInt(Integer::intValue).toArray();
+        return res;
     }
 }
