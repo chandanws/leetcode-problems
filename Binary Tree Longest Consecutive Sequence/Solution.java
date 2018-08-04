@@ -19,11 +19,9 @@ class Solution {
         int[] right = new int[]{};
         if(root.left != null) left = dfs(root.left);
         if(root.right != null) right = dfs(root.right);
-        if(left.length == 2 && right.length == 2) {
-            if(left[0] - 1 == root.val && right[0] - 1 == root.val) {
-                max = Math.max(max, Math.max(left[1], right[1]) + 1);
-                return new int[]{root.val, Math.max(left[1], right[1]) + 1};
-            }
+        if(left.length == 2 && right.length == 2 && left[0] - 1 == root.val && right[0] - 1 == root.val) {
+            max = Math.max(max, Math.max(left[1], right[1]) + 1);
+            return new int[]{root.val, Math.max(left[1], right[1]) + 1};
         }
         if(left.length == 2 && left[0] - 1 == root.val) {
             max = Math.max(max, left[1] + 1);
