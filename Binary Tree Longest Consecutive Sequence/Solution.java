@@ -23,14 +23,9 @@ class Solution {
             if(left[0] - 1 == root.val && right[0] - 1 == root.val) {
                 max = Math.max(max, Math.max(left[1], right[1]) + 1);
                 return new int[]{root.val, Math.max(left[1], right[1]) + 1};
-            } else if(left[0] - 1 == root.val) {
-                max = Math.max(max, left[1] + 1);
-                return new int[]{root.val, left[1] + 1};
-            } else if(right[0] - 1 == root.val) {
-                max = Math.max(max, right[1] + 1);
-                return new int[]{root.val, right[1] + 1};
             }
-        } else if(left.length == 2 && left[0] - 1 == root.val) {
+        }
+        if(left.length == 2 && left[0] - 1 == root.val) {
             max = Math.max(max, left[1] + 1);
             return new int[]{root.val, left[1] + 1};
         } else if(right.length == 2 && right[0] - 1 == root.val) {
