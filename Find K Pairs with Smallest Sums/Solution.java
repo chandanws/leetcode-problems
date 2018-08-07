@@ -4,17 +4,32 @@
 class Solution {
     public List<int[]> kSmallestPairs(int[] nums1, int[] nums2, int k) {
         List<int[]> res = new ArrayList<int[]>();
-        for(int i = 0; i < nums1.length; i++) {
-            for(int j = 0; j < nums2.length; j++) {
-                res.add(new int[]{nums1[i], nums2[j]});
-            }
+        if(nums1.length == 0 || nums2.length == 0) return res;
+        Queue<SpecialNode> pq = new PriorityQueue<SpecialNode>(Math.max(nums1.length, nums2.length), SpecialNodeComparator);
+        for(int i = 0; i < nums2.length; i++) pq.add(new SpecialNode(0, i, nums1[0] + nums2[i]));
+        for(int i = 0; i < k && !pq.isEmpty(); i++) {
+            SpecialNode nextSpecialNode = pq.poll();
+            res.add(new int[]{nums1[nextSpecialNode.x], nums2[nextSpecialNode.y]});
+            if(nextSpecialNode.x + 1 < nums1.length)
+                pq.offer(new SpecialNode(nextSpecialNode.x + 1, nextSpecialNode.y, nums1[nextSpecialNode.x + 1] + nums2[nextSpecialNode.y]));
         }
-        Collections.sort(res, new Comparator<int[]>() {
-            public int compare(int[] a, int[] b) {
-                return (a[0] + a[1]) - (b[0] + b[1]);
-            }
-        });
-        for(int i = res.size() - 1; i >= k; i--) res.remove(res.size() - 1);
         return res;
+    }
+    public static Comparator<SpecialNode> SpecialNodeComparator = new Comparator<SpecialNode>(){
+        @Override
+        public int compare(SpecialNode n1, SpecialNode n2) {
+            return n1.sum - n2.sum;
+        }
+    };
+}
+
+class SpecialNode {
+    public int sum;
+    public int x;
+    public int y;
+    public SpecialNode(int _x, int _y, int _sum) {
+        x = _x;
+        y = _y;
+        sum = _sum;
     }
 }
