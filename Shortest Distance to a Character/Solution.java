@@ -3,21 +3,16 @@
 
 class Solution {
     public int[] shortestToChar(String S, char C) {
-        int left = -1, right = -1;
-        for(int i = 0; i < S.length(); i++) {
-            if(S.charAt(i) == C) {
-                if(left == -1) left = i;
-                else if(right == -1) right = i;
-            }
-        }
-        if(right == -1) right = left;
         int [] res = new int[S.length()];
+        int prev = -S.length() * 2;
         for(int i = 0; i < S.length(); i++) {
-            res[i] = Math.min(Math.abs(left - i), right < S.length() ? Math.abs(right - i) : Integer.MAX_VALUE);
-            if(right == i) {
-                left = right++;
-                while(right < S.length() && S.charAt(right) != C) right++;
-            }
+            if(S.charAt(i) == C) prev = i;
+            res[i] = i - prev;
+        }
+        prev = S.length() * 2;
+        for(int i = S.length() - 1; i >= 0; i--) {
+            if(S.charAt(i) == C) prev = i;
+            res[i] = Math.min(res[i], prev - i);
         }
         return res;
     }
