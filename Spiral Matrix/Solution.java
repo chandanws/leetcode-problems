@@ -1,56 +1,42 @@
 // Problem link: https://leetcode.com/problems/spiral-matrix/description/
 // Status: Accepted
 
-import java.util.Hashtable;
 class Solution {
-    private static Hashtable<String, Integer []> getPossibleMoves(int i, int j, HashSet<String> hs, int [][] matrix) {
-        Hashtable<String, Integer []> possibleMoves = new Hashtable<>();
-        int m = matrix.length;
-        int n = matrix[0].length;
-        // right
-        if(j + 1 < n &&
-          !hs.contains(i + "," + (j + 1))
-        ) {
-          possibleMoves.put("right", new Integer[]{i, j + 1});
-        }
-        // down
-        if(i + 1 < m &&
-          !hs.contains((i + 1) + "," + j)
-        ) {
-          possibleMoves.put("down", new Integer[]{i + 1, j});
-        }
-        // left
-        if(j - 1 > -1 &&
-          !hs.contains(i + "," + (j - 1))
-        ) {
-          possibleMoves.put("left", new Integer[]{i, j - 1});
-        }
-        // up
-        if(i - 1 > -1 &&
-          !hs.contains((i - 1) + "," + j)
-        ) {
-          possibleMoves.put("up", new Integer[]{i - 1, j});
-        }
-        return possibleMoves;
-      }
     public List<Integer> spiralOrder(int[][] matrix) {
-        List<Integer> results = new ArrayList<>();
-        if(matrix.length == 0) return results;
-        String [] directions = new String[]{"right", "down", "left", "up"};
-        int nextDirection = 0;
-        HashSet<String> hs = new HashSet<>();
+        List<Integer> res = new ArrayList<>();
+        int m = matrix.length;
+        if(m == 0) return res;
+        int n = matrix[0].length, len = m * n;
+        int [][] visited = new int[m][n];
+        visited[0][0] = 1;
+        res.add(matrix[0][0]);
         int i = 0, j = 0;
-        while(true) {
-          hs.add(i + "," + j);
-          results.add(matrix[i][j]);
-          Hashtable<String, Integer[]> possibleMoves = getPossibleMoves(i, j, hs, matrix);
-          if(!possibleMoves.containsKey(directions[nextDirection % 4])) {
-            nextDirection++;
-            if(!possibleMoves.containsKey(directions[nextDirection % 4])) break;
-          }
-          i = possibleMoves.get(directions[nextDirection % 4])[0];
-          j = possibleMoves.get(directions[nextDirection % 4])[1];
+        while(res.size() < len) {
+            while(j + 1 < n && visited[i][j + 1] == 0) {
+                // keep going right
+                res.add(matrix[i][j + 1]);
+                visited[i][j + 1] = 1;
+                j++;
+            }
+            while(i + 1 < m && visited[i + 1][j] == 0) {
+                // keep going down
+                res.add(matrix[i + 1][j]);
+                visited[i + 1][j] = 1;
+                i++;
+            }
+            while(j - 1 >= 0 && visited[i][j - 1] == 0) {
+                // keep going left
+                res.add(matrix[i][j - 1]);
+                visited[i][j - 1] = 1;
+                j--;
+            }
+            while(i - 1 >= 0 && visited[i - 1][j] == 0) {
+                // keep going up
+                res.add(matrix[i - 1][j]);
+                visited[i - 1][j] = 1;
+                i--;
+            }
         }
-        return results;
+        return res;
     }
 }
