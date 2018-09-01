@@ -5,13 +5,8 @@ class Solution {
     public int removeDuplicates(int[] nums) {
         int slow = 0, fast = 1;
         while(fast < nums.length) {
-            if(nums[fast] == nums[slow]) {
-                fast++;
-            } else {
-                if(fast - 1 != slow) nums[slow + 1] = nums[fast];
-                fast++;
-                slow++;
-            }
+            while(fast < nums.length && nums[fast - 1] == nums[fast]) fast++;
+            if(fast < nums.length) nums[++slow] = nums[fast++];
         }
         return slow + 1;
     }
