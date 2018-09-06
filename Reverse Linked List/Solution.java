@@ -42,4 +42,27 @@ class Solution {
     }
     return newHead;
   }
+  // reverse linked list with recursion
+  private ListNode newHead;
+  private ListNode currentNode;
+  private void helper(ListNode head) {
+      if(head != null) {
+          helper(head.next);
+          if(newHead == null) {
+              newHead = head;
+              currentNode = newHead;
+          } else {
+              currentNode.next = head;
+              currentNode = currentNode.next;
+          }
+      }
+  }
+  public ListNode reverseList(ListNode head) {
+      newHead = null;
+      currentNode = null;
+      if(head == null) return newHead;
+      helper(head);
+      currentNode.next = null;
+      return newHead;
+  }
 }
