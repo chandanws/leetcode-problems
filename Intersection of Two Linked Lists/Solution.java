@@ -11,29 +11,26 @@
  */
 public class Solution {
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        int lengthA = 0, lengthB = 0;
-        ListNode copyHeadA = headA, copyHeadB = headB;
-        while(copyHeadA != null) {
-            copyHeadA = copyHeadA.next;
-            lengthA++;
+        ListNode headACopy = headA;
+        int lenOfAs = 0, lenOfBs = 0;
+        while(headACopy != null) {
+            lenOfAs++;
+            headACopy = headACopy.next;
         }
-        while(copyHeadB != null) {
-            copyHeadB = copyHeadB.next;
-            lengthB++;
+        ListNode headBCopy = headB;
+        while(headBCopy != null) {
+            lenOfBs++;
+            headBCopy = headBCopy.next;
         }
-        copyHeadA = headA;
-        copyHeadB = headB;
-        if(lengthA != lengthB) {
-            ListNode longerLengthHead = lengthA > lengthB ? copyHeadA : copyHeadB;
-            int i = Math.abs(lengthA - lengthB);
-            while(i-- > 0) longerLengthHead = longerLengthHead.next;
-            if(lengthA > lengthB) copyHeadA = longerLengthHead;
-            else copyHeadB = longerLengthHead;
+        if(lenOfAs > lenOfBs) {
+            for(int i = lenOfAs; i > lenOfBs; i--) headA = headA.next;
+        } else if(lenOfAs < lenOfBs) {
+            for(int i = lenOfBs; i > lenOfAs; i--) headB = headB.next;
         }
-        while(copyHeadA != copyHeadB) {
-            copyHeadA = copyHeadA.next;
-            copyHeadB = copyHeadB.next;
+        while(headA != null && headA != headB) {
+            headA = headA.next;
+            headB = headB.next;
         }
-        return copyHeadA;
+        return headA;
     }
 }
