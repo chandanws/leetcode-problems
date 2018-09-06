@@ -12,21 +12,14 @@
  *     }
  * }
  */
-
 public class Solution {
     public boolean hasCycle(ListNode head) {
-        if(head == null) { return false; }
-        ListNode stayHead = head;
-        head = head.next;
-        while(head != null) {
-            if(head == stayHead){ return true; }
-            head = head.next;
-            stayHead = stayHead.next;
-            if(head != null) {
-              head = head.next;
-            } else {
-              return false;
-            }
+        ListNode slow = head, fast = head;
+        while(slow != null && fast != null) {
+            slow = slow.next;
+            fast = fast.next;
+            if(fast != null) fast = fast.next;
+            if(fast != null && fast == slow) return true;
         }
         return false;
     }
