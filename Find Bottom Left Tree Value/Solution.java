@@ -11,21 +11,18 @@
  * }
  */
 class Solution {
-    private TreeNode ans;
-    private int foundLevel;
     public int findBottomLeftValue(TreeNode root) {
-        ans = null;
-        foundLevel = -1;
         Queue<TreeNode> q = new LinkedList<TreeNode>();
         q.offer(root);
-        int level = 0;
+        TreeNode ans = root;
+        int ansLevel = 1, level = 1;
         while(!q.isEmpty()) {
             int size = q.size();
             for(int i = 0; i < size; i++) {
                 TreeNode node = q.poll();
-                if(ans == null || level > foundLevel) {
+                if(level > ansLevel) {
                     ans = node;
-                    foundLevel = level;
+                    ansLevel = level;
                 }
                 if(node.left != null) q.offer(node.left);
                 if(node.right != null) q.offer(node.right);
