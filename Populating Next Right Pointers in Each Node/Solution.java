@@ -10,19 +10,15 @@
  * }
  */
 public class Solution {
+    private void populateRightPointers(TreeLinkNode left, TreeLinkNode right) {
+        if(left == null && right == null) return;
+        left.next = right;
+        populateRightPointers(left.right, right.left);
+    }
     public void connect(TreeLinkNode root) {
-        if(root == null || root.left == null && root.right == null) return;
-        if(root.left.next == null) root.left.next = root.right;
+        if(root == null) return;
         connect(root.left);
+        populateRightPointers(root.left, root.right);
         connect(root.right);
-        if(root.left != null) {
-            TreeLinkNode left = root.left.right;
-            TreeLinkNode right = root.right.left;
-            while(left != null && right != null) {
-                left.next = right;
-                left = left.right;
-                right = right.left;
-            }
-        }
     }
 }
