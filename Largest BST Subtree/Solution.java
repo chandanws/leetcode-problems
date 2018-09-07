@@ -11,33 +11,30 @@
  * }
  */
 class Solution {
-    private int largestSubtreeCount;
-    private List<Integer> dfs(TreeNode root) {
-        if(root.left == null && root.right == null) return new ArrayList<>(Arrays.asList(root.val, root.val, 1));
-        List<Integer> left = new ArrayList<>();
-        List<Integer> right = new ArrayList<>();
-        if(root.left != null) left = dfs(root.left);
-        if(root.right != null) right = dfs(root.right);
-        if(left.size() > 0 && right.size() > 0) {
-            if(left.get(1) < root.val && root.val < right.get(0)) {
-                largestSubtreeCount = Math.max(largestSubtreeCount, 1 + left.get(2) + right.get(2));
-                return new ArrayList<>(Arrays.asList(left.get(0), right.get(1), 1 + left.get(2) + right.get(2)));
-            }
-        } else {
-            if(left.size() > 0 && left.get(1) < root.val && root.right == null) {
-                largestSubtreeCount = Math.max(largestSubtreeCount, 1 + left.get(2));
-                return new ArrayList<>(Arrays.asList(left.get(0), root.val, 1 + left.get(2)));
-            } else if(right.size() > 0 && root.val < right.get(0) && root.left == null) {
-                largestSubtreeCount = Math.max(largestSubtreeCount, 1 + right.get(2));
-                return new ArrayList<>(Arrays.asList(root.val, right.get(1), 1 + right.get(2)));
-            }
+    private int max;
+    private int [] helper(TreeNode root) {
+        if(root.left == null && root.right == null) return new int[]{root.val, root.val, 1};
+        int [] left = new int[]{-1, -1, -1};
+        int [] right = new int[]{-1, -1, -1};
+        if(root.left != null) left = helper(root.left);
+        if(root.right != null) right = helper(root.right);
+        if(left[2] != -1 && right[2] != -1 && left[1] < root.val && root.val < right[0]) {
+            max = Math.max(max, left[2] + right[2] + 1);
+            return new int[]{left[0], right[1], left[2] + right[2] + 1};
+        } else if(left[2] != -1 && root.right == null && left[1] < root.val) {
+            max = Math.max(max, left[2] + 1);
+            return new int[]{left[0], root.val, left[2] + 1};
+        } else if(right[2] != -1 && root.left == null && root.val < right[0]) {
+            max = Math.max(max, right[2] + 1);
+            return new int[]{root.val, right[1], right[2] + 1};
         }
-        return new ArrayList<>();
+        return new int[]{-1, -1, -1};
     }
     public int largestBSTSubtree(TreeNode root) {
-        largestSubtreeCount = 1;
+        max = 1;
         if(root == null) return 0;
-        dfs(root);
-        return largestSubtreeCount;
+        int [] res = helper(root);
+        max = Math.max(max, res[2]);
+        return max;
     }
 }
