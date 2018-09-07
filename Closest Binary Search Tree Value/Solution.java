@@ -11,18 +11,16 @@
  * }
  */
 class Solution {
-    public int closestValue(TreeNode root, double target) {
-        return helper(root, target, root, Double.MAX_VALUE).val;
+    private TreeNode node;
+    private void helper(TreeNode root, double target) {
+        if(root == null) return;
+        if(node == null || Math.abs(target - (root.val * 1.0)) < Math.abs(target - (node.val * 1.0))) node = root;
+        if(root.val < target) helper(root.right, target);
+        else helper(root.left, target);
     }
-    private TreeNode helper(TreeNode root, double target, TreeNode closestNode, double differences) {
-        if(root == null) return closestNode;
-        double diff = Math.abs((double) root.val - target);
-        if(diff < differences) {
-            differences = diff;
-            closestNode = root;
-        }
-        closestNode = helper(root.left, target, closestNode, differences);
-        closestNode = helper(root.right, target, closestNode, differences);
-        return closestNode;
+    public int closestValue(TreeNode root, double target) {
+        node = null;
+        helper(root, target);
+        return node.val;
     }
 }
