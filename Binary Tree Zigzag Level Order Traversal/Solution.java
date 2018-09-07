@@ -12,28 +12,31 @@
  */
 class Solution {
     public List<List<Integer>> zigzagLevelOrderUsingStack(TreeNode root) {
-        List<List<Integer>> l = new ArrayList<List<Integer>>();
-        if(root == null) return l;
-        Stack<TreeNode> s1 = new Stack<>();
-        Stack<TreeNode> s2 = new Stack<>();
-        int level = 0;
+        List<List<Integer>> res = new ArrayList<>();
+        if(root == null) return res;
+        Stack<TreeNode> s1 = new Stack<TreeNode>();
         s1.push(root);
+        Stack<TreeNode> s2 = new Stack<TreeNode>();
+        int level = 1;
         while(!s1.isEmpty() || !s2.isEmpty()) {
-            Stack<TreeNode> popS = level % 2 == 0 ? s1 : s2;
-            Stack<TreeNode> pushS = level % 2 == 0 ? s2 : s1;
-            TreeNode current = popS.pop();
-            if(l.size() < level + 1) l.add(new ArrayList<Integer>(Arrays.asList(current.val)));
-            else l.get(level).add(current.val);
-            if((level + 1) % 2 == 0) {
-                if(current.right != null) pushS.push(current.right);
-                if(current.left != null) pushS.push(current.left);
-            } else {
-                if(current.left != null) pushS.push(current.left);
-                if(current.right != null) pushS.push(current.right);
+            Stack<TreeNode> pushS = level % 2 == 0 ? s1 : s2;
+            Stack<TreeNode> popS = level % 2 == 0 ? s2 : s1;
+            List<Integer> l = new ArrayList<>();
+            while(!popS.isEmpty()) {
+                TreeNode node = popS.pop();
+                if(level % 2 != 0) {
+                    if(node.left != null) pushS.push(node.left);
+                    if(node.right != null) pushS.push(node.right);
+                } else {
+                    if(node.right != null) pushS.push(node.right);
+                    if(node.left != null) pushS.push(node.left);
+                }
+                l.add(node.val);
             }
-            if(popS.isEmpty()) level++;
+            res.add(l);
+            level++;
         }
-        return l;
+        return res;
     }
     public List<List<Integer>> zigzagLevelOrderUsingArrayListAsStack(TreeNode root) {
         List<List<Integer>> l = new ArrayList<List<Integer>>();
