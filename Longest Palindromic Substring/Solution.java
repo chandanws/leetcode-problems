@@ -2,16 +2,18 @@
 // Status: Accepted
 
 class Solution {
-    private String longestPalindromeStr;
-    private void dp(String s, int i, int j) {
+    private String longestPalindrome;
+    private void helper(String s, int i, int j) {
         if(i < 0 || j < 0 || i >= s.length() || j >= s.length() || s.charAt(i) != s.charAt(j)) return;
-        if((j - i + 1) > longestPalindromeStr.length()) longestPalindromeStr = s.substring(i, j + 1);
-        dp(s, i - 1, j + 1);
-        if(i == j) dp(s, i, j + 1);
+        if(j - i + 1 > longestPalindrome.length()) longestPalindrome = s.substring(i, j + 1);
+        helper(s, i - 1, j + 1);
     }
     public String longestPalindrome(String s) {
-        longestPalindromeStr = "";
-        for(int i = 0; i < s.length(); i++) dp(s, i, i);
-        return longestPalindromeStr;
+        longestPalindrome = "";
+        for(int i = 0; i < s.length(); i++) {
+            helper(s, i, i);
+            helper(s, i, i + 1);
+        }
+        return longestPalindrome;
     }
 }
