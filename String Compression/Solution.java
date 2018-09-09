@@ -10,11 +10,7 @@ class Solution {
             while(i + 1 < chars.length && candidate == chars[i + 1]) i++;
             chars[lastInplaceUpdateIndex] = (char) candidate;
             if(i > candidateIndex) {
-                String times = Integer.toString(i - candidateIndex + 1);
-                for(int j = 0; j < times.length(); j++) {
-                    chars[lastInplaceUpdateIndex + 1] = (char) (Integer.parseInt(times.substring(j, j + 1)) + '0');
-                    lastInplaceUpdateIndex++;
-                }
+                for(char c : Integer.toString(i - candidateIndex + 1).toCharArray()) chars[++lastInplaceUpdateIndex] = c;
             }
             lastInplaceUpdateIndex++;
         }
