@@ -2,19 +2,16 @@
 // Status: Accepted
 
 class Solution {
-    private boolean isAlphaOrNumeric(char chara) {
-        return ((chara >= 'a' && chara <= 'z') ||
-           (chara >= '0' && chara <= '9'));
+    private boolean isAlphanumeric(char c) {
+        return c >= 'a' && c <= 'z' || c >= '0' && c <= '9';
     }
     public boolean isPalindrome(String s) {
-        if(s.length() == 0) return true;
         s = s.toLowerCase();
-        int len = s.length(), i = 0, j = len - 1;
-        while(i != j) {
-            while(!(isAlphaOrNumeric(s.charAt(i))) && i < j) i++;
-            while(!(isAlphaOrNumeric(s.charAt(j))) && i < j) j--;
+        int i = 0, j = s.length() - 1;
+        while(i < j) {
+            while(i < j && !isAlphanumeric(s.charAt(i))) i++;
+            while(i < j && !isAlphanumeric(s.charAt(j))) j--;
             if(s.charAt(i) != s.charAt(j)) return false;
-            if(i + 1 == j || i == j) break;
             i++;
             j--;
         }
