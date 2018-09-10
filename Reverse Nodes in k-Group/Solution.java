@@ -10,36 +10,32 @@
  * }
  */
 class Solution {
-    private ArrayList<ListNode> reverseList(ListNode head, ListNode rest) {
-        ListNode currentNode = head;
-        ListNode copiedHead = rest;
-        while(currentNode != null) {
-            ListNode next = currentNode.next;
-            currentNode.next = copiedHead;
-            copiedHead = currentNode;
-            currentNode = next;
+    private ListNode [] reverse(ListNode head) {
+        ListNode newHead = null;
+        ListNode tail = head;
+        while(head != null) {
+            ListNode next = head.next;
+            head.next = newHead;
+            newHead = head;
+            head = next;
         }
-        return new ArrayList<>(Arrays.asList(copiedHead, head));
+        return new ListNode[]{newHead, tail};
     }
     public ListNode reverseKGroup(ListNode head, int k) {
-        if(k == 1) return head;
         ListNode dummyHead = new ListNode(0);
         dummyHead.next = head;
-        ListNode lastTail = dummyHead;
-        ListNode currentNode = head;
-        int i = 1;
-        while(currentNode != null) {
-            if(i == k) {
-                ListNode rest = currentNode.next;
-                currentNode.next = null;
-                ArrayList<ListNode> l = reverseList(lastTail.next, rest);
-                lastTail.next = l.get(0);
-                lastTail = l.get(1);
-                currentNode = rest;
-                i = 1;
-            }
-            if(currentNode != null) currentNode = currentNode.next;
-            i++;
+        ListNode tail = dummyHead;
+        while(head != null) {
+            ListNode currentHead = head;
+            for(int i = 1; i < k && head != null; i++) head = head.next;
+            if(head == null) break;
+            ListNode next = head.next;
+            head.next = null;
+            ListNode [] nodes = reverse(currentHead);
+            tail.next = nodes[0];
+            nodes[1].next = next;
+            tail = nodes[1];
+            head = next;
         }
         return dummyHead.next;
     }
