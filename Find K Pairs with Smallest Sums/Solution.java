@@ -2,34 +2,36 @@
 // Status: Accepted
 
 class Solution {
-    public List<int[]> kSmallestPairs(int[] nums1, int[] nums2, int k) {
-        List<int[]> res = new ArrayList<int[]>();
-        if(nums1.length == 0 || nums2.length == 0) return res;
-        Queue<SpecialNode> pq = new PriorityQueue<SpecialNode>(Math.max(nums1.length, nums2.length), SpecialNodeComparator);
-        for(int i = 0; i < nums2.length; i++) pq.add(new SpecialNode(0, i, nums1[0] + nums2[i]));
+    public List<int []> kSmallestPairs(int [] nums1, int [] nums2, int k) {
+        int n = nums1.length, m = nums2.length;
+        List<int []> res = new ArrayList<>();
+        if(n == 0 || m == 0) return res;
+        PriorityQueue<int []> pq = new PriorityQueue<int []>(new Comparator<int []>() {
+            @Override
+            public int compare(int [] a, int [] b) {
+                return (nums1[a[0]] + nums2[a[1]]) - (nums1[b[0]] + nums2[b[1]]);
+            }
+        });
+        if(n < m) {
+            for(int i = 0; i < n; i++) pq.offer(new int[]{i, 0});
+        } else {
+            for(int i = 0; i < m; i++) pq.offer(new int[]{0, i});
+        }
         for(int i = 0; i < k && !pq.isEmpty(); i++) {
-            SpecialNode nextSpecialNode = pq.poll();
-            res.add(new int[]{nums1[nextSpecialNode.x], nums2[nextSpecialNode.y]});
-            if(nextSpecialNode.x + 1 < nums1.length)
-                pq.offer(new SpecialNode(nextSpecialNode.x + 1, nextSpecialNode.y, nums1[nextSpecialNode.x + 1] + nums2[nextSpecialNode.y]));
+            int [] next = pq.poll();
+            res.add(new int[]{nums1[next[0]], nums2[next[1]]});
+            if(n < m) {
+                if(next[1] + 1 < m) {
+                    next[1]++;
+                    pq.offer(next);
+                }
+            } else {
+                if(next[0] + 1 < n) {
+                    next[0]++;
+                    pq.offer(next);
+                }
+            }
         }
         return res;
-    }
-    public static Comparator<SpecialNode> SpecialNodeComparator = new Comparator<SpecialNode>(){
-        @Override
-        public int compare(SpecialNode n1, SpecialNode n2) {
-            return n1.sum - n2.sum;
-        }
-    };
-}
-
-class SpecialNode {
-    public int sum;
-    public int x;
-    public int y;
-    public SpecialNode(int _x, int _y, int _sum) {
-        x = _x;
-        y = _y;
-        sum = _sum;
     }
 }
