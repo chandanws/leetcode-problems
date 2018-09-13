@@ -20,7 +20,6 @@ class Solution {
         });
         for(int i = 1; i < intervals.length; i++) {
             if(intervals[i].start >= intervals[i - 1].start && intervals[i].start < intervals[i - 1].end) return false;
-            if(intervals[i].end >= intervals[i - 1].start && intervals[i].end < intervals[i - 1].end) return false;
         }
         return true;
     }
