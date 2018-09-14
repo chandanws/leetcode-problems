@@ -11,8 +11,8 @@
  */
 class Solution {
     private ListNode [] reverse(ListNode head) {
-        ListNode newHead = null;
         ListNode tail = head;
+        ListNode newHead = null;
         while(head != null) {
             ListNode next = head.next;
             head.next = newHead;
@@ -23,19 +23,20 @@ class Solution {
     }
     public ListNode reverseKGroup(ListNode head, int k) {
         ListNode dummyHead = new ListNode(0);
-        dummyHead.next = head;
         ListNode tail = dummyHead;
+        tail.next = head;
         while(head != null) {
-            ListNode currentHead = head;
-            for(int i = 1; i < k && head != null; i++) head = head.next;
-            if(head == null) break;
-            ListNode next = head.next;
-            head.next = null;
-            ListNode [] nodes = reverse(currentHead);
-            tail.next = nodes[0];
-            nodes[1].next = next;
-            tail = nodes[1];
-            head = next;
+            ListNode start = head;
+            for(int i = 0; i < k - 1 && head != null; i++) head = head.next;
+            if(head != null) {
+                ListNode next = head.next;
+                head.next = null;
+                ListNode [] nodes = reverse(start);
+                tail.next = nodes[0];
+                tail = nodes[1];
+                nodes[1].next = next;
+                head = next;
+            }
         }
         return dummyHead.next;
     }
