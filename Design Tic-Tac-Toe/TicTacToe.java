@@ -2,9 +2,17 @@
 // Status: Accepted
 
 class TicTacToe {
-    int [][] board;
+    private int [][] rows;
+    private int [][] cols;
+    private int [] diag1;
+    private int [] diag2;
+    
+    /** Initialize your data structure here. */
     public TicTacToe(int n) {
-       board = new int[n][n]; 
+        rows = new int[n][2];
+        cols = new int[n][2];
+        diag1 = new int[2];
+        diag2 = new int[2];
     }
     
     /** Player {player} makes a move at ({row}, {col}).
@@ -16,23 +24,20 @@ class TicTacToe {
                 1: Player 1 wins.
                 2: Player 2 wins. */
     public int move(int row, int col, int player) {
-        board[row][col] = player;
-        boolean tryH = true, tryV = true, tryD1 = true, tryD2 = true;
-        for(int i = 0; i < board.length; i++) {
-          if(tryH && board[row][i] != player)
-            tryH = false;
-          if(tryV && board[i][col] != player)
-            tryV = false;
-          if(tryD1 && board[i][i] != player)
-            tryD1 = false;
-          if(tryD2 && board[i][board.length-1-i] != player)
-            tryD2 = false;
-          if(!tryH && !tryV && !tryD1 && !tryD2)
-            break;
-        }
-        if(tryH || tryV || tryD1 || tryD2)
-          return player;
-        else
-          return 0;
+        rows[row][player - 1]++;
+        cols[col][player - 1]++;
+        if(row == col) diag1[player - 1]++;
+        if(row + col == rows.length - 1) diag2[player - 1]++;
+        if(rows[row][player - 1] == rows.length ||
+          cols[col][player - 1] == cols.length ||
+          diag1[player - 1] == rows.length ||
+          diag2[player - 1] == rows.length) return player;
+        return 0;
     }
 }
+
+/**
+ * Your TicTacToe object will be instantiated and called as such:
+ * TicTacToe obj = new TicTacToe(n);
+ * int param_1 = obj.move(row,col,player);
+ */
