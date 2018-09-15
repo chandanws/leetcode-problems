@@ -2,23 +2,38 @@
 // Status: Accepted
 
 class Solution {
-  public void rotate(int[][] matrix) {
-    if(matrix == null || matrix[0].length < 2) { return; }
-    for(int i = 0; i < matrix[0].length; i++) {
-      for(int j = i + 1; j < matrix[0].length; j++) {
-        int temp = matrix[j][i];
-        matrix[j][i] = matrix[i][j];
-        matrix[i][j] = temp;
-      }
-    }
-    for(int i = 0; i < matrix[0].length; i++) {
-      for(int j = 0; j < matrix[0].length; j++) {
-        if(j < matrix[0].length - j - 1) {
-          int temp = matrix[i][j];
-          matrix[i][j] = matrix[i][matrix[0].length - j - 1];
-          matrix[i][matrix[0].length - j - 1] = temp;
+    public void rotate(int[][] matrix) {
+        int n = matrix.length;
+        if(n == 0) return;
+        for(int i = 0; i < n; i++) {
+            int top = 0, bottom = n - 1;
+            while(bottom > top) {
+                int temp = matrix[top][i];
+                matrix[top][i] = matrix[bottom][i];
+                matrix[bottom][i] = temp;
+                top++;
+                bottom--;
+            }
         }
-      }
+        for(int i = n - 1; i > 0; i--) {
+            int x = i, y = 0;
+            while(x > y) {
+                int temp = matrix[x][y];
+                matrix[x][y] = matrix[y][x];
+                matrix[y][x] = temp;
+                x--;
+                y++;
+            }
+        }
+        for(int i = 1; i < n - 1; i++) {
+            int x = n - 1, y = i;
+            while(x > y) {
+                int temp = matrix[x][y];
+                matrix[x][y] = matrix[y][x];
+                matrix[y][x] = temp;
+                x--;
+                y++;
+            }
+        }
     }
-  }
 }
