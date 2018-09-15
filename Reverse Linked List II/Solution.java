@@ -15,30 +15,27 @@ class Solution {
         dummyHead.next = head;
         ListNode prevNode = null;
         int i = 1;
-        while(head != null) {
-            if(i == m) {
-                ListNode newHead = null;
-                ListNode next = null;
-                while(head != null && i++ <= n) {
-                    next = head.next;
-                    head.next = newHead;
-                    newHead = head;
-                    head = next;
-                }
-                if(prevNode == null) {
-                    ListNode tail = dummyHead.next;
-                    dummyHead.next = newHead;
-                    tail.next = next;
-                } else {
-                    ListNode tail = prevNode.next;
-                    prevNode.next = newHead;
-                    tail.next = next;
-                }
-            } else {
-                prevNode = head;
-                head = head.next;
-                i++;
-            }
+        while(i < m) {
+            prevNode = head;
+            head = head.next;
+            i++;
+        }
+        ListNode newHead = null;
+        ListNode next = null;
+        while(i++ <= n) {
+            next = head.next;
+            head.next = newHead;
+            newHead = head;
+            head = next;
+        }
+        if(prevNode == null) {
+            ListNode tail = dummyHead.next;
+            dummyHead.next = newHead;
+            tail.next = next;
+        } else {
+            ListNode tail = prevNode.next;
+            prevNode.next = newHead;
+            tail.next = next;
         }
         return dummyHead.next;
     }
