@@ -10,38 +10,36 @@
  * }
  */
 class Solution {
-    private ListNode reverseList(ListNode head, ListNode tail) {
-        ListNode currentNode = head;
-        ListNode copiedHead = tail;
-        while(currentNode != null) {
-            ListNode next = currentNode.next;
-            currentNode.next = copiedHead;
-            copiedHead = currentNode;
-            currentNode = next;
-        }
-        return copiedHead;
-    }
     public ListNode reverseBetween(ListNode head, int m, int n) {
         ListNode dummyHead = new ListNode(0);
         dummyHead.next = head;
-        int i = 0;
-        ListNode currentNode = dummyHead;
-        ListNode inFront = null, atBack = null;
-        ListNode reverseFront = null;
-        while(currentNode != null) {
-            if(i + 1 == m) inFront = currentNode;
-            if(i == m) reverseFront = currentNode;
-            if(i == n) {
-                atBack = currentNode.next;
-                currentNode.next = null;
-                currentNode = atBack;
-                break;
+        ListNode prevNode = null;
+        int i = 1;
+        while(head != null) {
+            if(i == m) {
+                ListNode newHead = null;
+                ListNode next = null;
+                while(head != null && i++ <= n) {
+                    next = head.next;
+                    head.next = newHead;
+                    newHead = head;
+                    head = next;
+                }
+                if(prevNode == null) {
+                    ListNode tail = dummyHead.next;
+                    dummyHead.next = newHead;
+                    tail.next = next;
+                } else {
+                    ListNode tail = prevNode.next;
+                    prevNode.next = newHead;
+                    tail.next = next;
+                }
+            } else {
+                prevNode = head;
+                head = head.next;
+                i++;
             }
-            currentNode = currentNode.next;
-            i++;
         }
-        ListNode rest = reverseList(reverseFront, atBack);
-        inFront.next = rest;
         return dummyHead.next;
     }
 }
