@@ -8,9 +8,7 @@ class Solution {
             if(c == '(') stack.push(')');
             else if(c == '{') stack.push('}');
             else if(c == '[') stack.push(']');
-            else {
-                if(stack.isEmpty() || c != stack.pop()) return false;
-            }
+            else if(stack.isEmpty() || c != stack.pop()) return false;
         }
         return stack.isEmpty();
     }
