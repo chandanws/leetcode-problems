@@ -2,21 +2,22 @@
 // Status: Accepted
 
 class Solution {
-    private boolean wordBreakHelper(char [] s, int i, Trie root, Trie current, HashMap<Integer, HashSet<Trie>> cache) {
+    private Trie root;
+    private boolean wordBreakHelper(char [] s, int i, Trie current, HashMap<Integer, HashSet<Trie>> cache) {
         if(i == s.length) return root == current;
         if(cache.containsKey(i) && cache.get(i).contains(current)) return false;
         if(!cache.containsKey(i)) cache.put(i, new HashSet<Trie>());
         if(current.alphabet[s[i] - 'a'] == null) return !cache.get(i).add(current);
         if(current.alphabet[s[i] - 'a'].isEnd) {
-            if(wordBreakHelper(s, i + 1, root, root, cache)) return true;
+            if(wordBreakHelper(s, i + 1, root, cache)) return true;
             cache.get(i + 1).add(root);
         }
-        return wordBreakHelper(s, i + 1, root, current.alphabet[s[i] - 'a'], cache);
+        return wordBreakHelper(s, i + 1, current.alphabet[s[i] - 'a'], cache);
     }
     public boolean wordBreak(String s, List<String> wordDict) {
-        Trie trie = new Trie();
-        for(String word : wordDict) trie.insert(word.toCharArray(), 0);
-        return wordBreakHelper(s.toCharArray(), 0, trie, trie, new HashMap<Integer, HashSet<Trie>>());
+        root = new Trie();
+        for(String word : wordDict) root.insert(word.toCharArray(), 0);
+        return wordBreakHelper(s.toCharArray(), 0, root, new HashMap<Integer, HashSet<Trie>>());
     }
 }
 
