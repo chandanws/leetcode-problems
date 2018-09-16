@@ -11,22 +11,19 @@
  * }
  */
 class Solution {
-    private TreeNode node;
+    private TreeNode ans;
     private void helper(TreeNode root, TreeNode p, TreeNode q) {
-        if(root == p ||
-           root == q ||
-           p.val < root.val && root.val < q.val ||
-           q.val < root.val && root.val < p.val) {
-            node = root;
-            return;
+        if(root == p || root == q || (p.val < root.val && root.val < q.val) || (q.val < root.val && root.val < p.val)) {
+            ans = root;
+        } else if(p.val > root.val && q.val > root.val) {
+            helper(root.right, p, q);
         } else if(p.val < root.val && q.val < root.val) {
-            if(root.left != null) helper(root.left, p, q);
+            helper(root.left, p, q);
         }
-        if(root.right != null) helper(root.right, p, q);
     }
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        node = null;
+        ans = null;
         helper(root, p, q);
-        return node;
+        return ans;
     }
 }
