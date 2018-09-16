@@ -2,7 +2,7 @@
 // Status: Accepted
 
 class Solution {
-    private void reverseWord(char[] str, int i, int j) {
+    private void reverse(char [] str, int i, int j) {
         while(i < j) {
             char c = str[i];
             str[i] = str[j];
@@ -11,14 +11,14 @@ class Solution {
             j--;
         }
     }
-    public void reverseWords(char[] str) {
-        reverseWord(str, 0, str.length - 1);
+    public void reverseWords(char [] str) {
+        reverse(str, 0, str.length - 1);
         int i = 0, j = 0;
-        while(j < str.length) {
-            j = i;
-            while(j < str.length && str[j] != ' ') j++;
-            reverseWord(str, i, j - 1);
-            i = j + 1;
+        while(i < str.length) {
+            while(j + 1 < str.length && str[j + 1] != ' ') j++;
+            reverse(str, i, j);
+            j+=2;
+            i = j;
         }
     }
 }
