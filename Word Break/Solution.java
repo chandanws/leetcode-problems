@@ -2,44 +2,41 @@
 // Status: Accepted
 
 class Solution {
-    private Trie root;
-    private HashMap<String, HashSet<Trie>> cache;
-    private void updateHashMap(String s, Trie trie) {
-        if(!cache.containsKey(s)) cache.put(s, new HashSet<Trie>());
-        cache.get(s).add(trie);
-    }
-    private boolean dp(Trie trie, String s) {
-        if(s.length() == 0) return trie.end;
-        if(!trie.hm.containsKey(s.charAt(0))) return false;
-        if(cache.containsKey(s) && cache.get(s).contains(trie)) return false;
-        boolean res1 = false, res2 = false;
-        if(trie.hm.get(s.charAt(0)).end) res1 = dp(root, s.substring(1));
-        if(!res1) updateHashMap(s.substring(1), root);
-        res2 = dp(trie.hm.get(s.charAt(0)), s.substring(1));
-        if(!res2) updateHashMap(s.substring(1), trie.hm.get(s.charAt(0)));
-        return res1 || res2;
+    private boolean wordBreakHelper(char [] s, int i, Trie root, Trie current, HashMap<Integer, HashSet<Trie>> cache) {
+        if(i == s.length) return root == current;
+        if(cache.containsKey(i) && cache.get(i).contains(current)) return false;
+        if(!cache.containsKey(i)) cache.put(i, new HashSet<Trie>());
+        if(current.alphabet[s[i] - 'a'] == null) return !cache.get(i).add(current);
+        if(current.alphabet[s[i] - 'a'].isEnd) {
+            if(wordBreakHelper(s, i + 1, root, root, cache)) return true;
+            cache.get(i + 1).add(root);
+        }
+        return wordBreakHelper(s, i + 1, root, current.alphabet[s[i] - 'a'], cache);
     }
     public boolean wordBreak(String s, List<String> wordDict) {
-        root = new Trie(null, false);
-        for(String word : wordDict) root.insert(word);
-        cache = new HashMap<String, HashSet<Trie>>();
-        return dp(root, s);
+        Trie trie = new Trie();
+        for(String word : wordDict) trie.insert(word.toCharArray(), 0);
+        return wordBreakHelper(s.toCharArray(), 0, trie, trie, new HashMap<Integer, HashSet<Trie>>());
     }
 }
 
-class Trie {
-    Boolean end;
+public class Trie {
+    boolean isEnd;
     Character c;
-    HashMap<Character, Trie> hm;
-    Trie(Character ch, Boolean isEnd) {
-        c = ch;
-        end = isEnd;
-        hm = new HashMap<Character, Trie>();
+    Trie [] alphabet;
+    Trie() {
+        isEnd = false;
+        c = null;
+        alphabet = new Trie[26];
     }
-    void insert(String word) {
-        if(word.length() == 0) return;
-        if(!hm.containsKey(word.charAt(0))) hm.put(word.charAt(0), new Trie(word.charAt(0), word.length() == 1));
-        else if(word.length() == 1) hm.get(word.charAt(0)).end = true;
-        hm.get(word.charAt(0)).insert(word.substring(1));
+    Trie(char ch) {
+        isEnd = false;
+        c = ch;
+        alphabet = new Trie[26];
+    }
+    void insert(char [] word, int i) {
+        if(alphabet[word[i] - 'a'] == null) alphabet[word[i] - 'a'] = new Trie(word[i]);
+        if(i + 1 == word.length) alphabet[word[i] - 'a'].isEnd = true;
+        else alphabet[word[i] - 'a'].insert(word, i + 1);
     }
 }
