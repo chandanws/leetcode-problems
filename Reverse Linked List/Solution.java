@@ -44,25 +44,18 @@ class Solution {
   }
   // reverse linked list with recursion
   private ListNode newHead;
-  private ListNode currentNode;
-  private void helper(ListNode head) {
+  private void reverse(ListNode head) {
       if(head != null) {
-          helper(head.next);
-          if(newHead == null) {
-              newHead = head;
-              currentNode = newHead;
-          } else {
-              currentNode.next = head;
-              currentNode = currentNode.next;
-          }
+          reverse(head.next);
+          if(newHead == null) newHead = head;
+          else head.next.next = head;
       }
   }
   public ListNode reverseList(ListNode head) {
+      if(head == null) return null;
       newHead = null;
-      currentNode = null;
-      if(head == null) return newHead;
-      helper(head);
-      currentNode.next = null;
+      reverse(head);
+      head.next = null;
       return newHead;
   }
 }
