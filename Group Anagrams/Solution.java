@@ -7,8 +7,7 @@ class Solution {
         for(char c : word.toCharArray()) alphabet[c - 'a']++;
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < 26; i++) {
-            if(alphabet[i] == 0) sb.append('#');
-            else sb.append(alphabet[i]);
+            for(int j = 0; j < alphabet[i]; j++) sb.append((char) (i + 'a'));
         }
         return sb.toString();
     }
