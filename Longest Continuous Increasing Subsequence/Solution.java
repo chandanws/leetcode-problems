@@ -1,5 +1,4 @@
 // Problem link: https://leetcode.com/problems/longest-continuous-increasing-subsequence/description/
-
 // Status: Accepted
 
 class Solution {
